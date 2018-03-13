@@ -1,0 +1,14 @@
+Value type (\w+)
+Value name (.*$)
+Value host (.*$)
+Value subnet (.*$)
+Value service (.*$)
+Value description (.*$)
+
+Start
+  ^object\s${type}\s${name} 
+  ^\sdescription ${description}
+  ^\shost ${host} -> Record
+  ^\ssubnet ${subnet} -> Record
+  ^\sservice ${service} -> Record
+  
