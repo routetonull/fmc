@@ -7,6 +7,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 Author: Gian Paolo Boarina - www.ifconfifg.it
 Original repository: https://github.com/routetonull/fmc
 License: CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/
+USE AT YOUR OWN RISK
 
 TO DO
 use dict.get()
@@ -51,7 +52,7 @@ class Fmc(object):
 
     def fmcPOST (self,api_path,post_data):
         '''
-        generic POST
+        generic POST - not for direct use
         '''
         api_path= self.base_api_path + self.uuid + api_path
         url = self.server+api_path
@@ -75,7 +76,7 @@ class Fmc(object):
 
     def fmcPUT (self,api_path,post_data):
         '''
-        generic PUT - to be tested
+        generic PUT - to be tested - not for direct use
         '''
         api_path= self.base_api_path + self.uuid + api_path
         url = self.server+api_path
@@ -99,7 +100,7 @@ class Fmc(object):
 
     def fmcGET (self, get_path):
         '''
-        generic GET
+        generic GET - not for direct use
         '''
         api_path= self.base_api_path + self.uuid + get_path
         url = self.server+api_path
@@ -124,6 +125,9 @@ class Fmc(object):
         return json_response
 
     def fmcDELETE (self, get_path):
+        '''
+        generic DELETE - not for direct use
+        '''
         api_path= self.base_api_path + self.uuid + get_path
         url = self.server+api_path
         try:
@@ -149,6 +153,7 @@ class Fmc(object):
     def addHost(self,name,ip,description='host object'):
         '''
         add host object
+        provide NAME,IP,DESCRIPTION
         '''
         if not self.findHost(name):
             post_data = {"name": name,"type": "Host","value": ip,"description": description}
@@ -160,6 +165,7 @@ class Fmc(object):
     def delHost(self,objectID):
         '''
         delete host by objectID
+        use findHost to get ID
         '''
         self.fmcDELETE('/object/hosts/'+objectID)
     
@@ -189,7 +195,7 @@ class Fmc(object):
     def addNetworkGroup(self,name,members,description=''):
         '''
         create new network group
-        member list cannot be empty
+        member list cannot be empty, enter at least one object
         '''
         toAdd=members
         members=[]
@@ -217,6 +223,7 @@ class Fmc(object):
     def getNetwork(self,objectID):
         '''
         get network by objectID
+        use findNetwork to get ID
         '''
         return self.fmcGET('/object/networks/'+objectID)
 
@@ -270,7 +277,8 @@ class Fmc(object):
 
     def showNetworkGroups(self,name=''):
         '''
-        show network group by name
+        show network groups by name
+        shows all groups if name is not provided
         '''
         if name:
            return self.findNetworkGroups(name)
@@ -278,7 +286,8 @@ class Fmc(object):
 
     def showNetworkGroupsMembers(self,name):
         '''
-        show network group members
+        show network groups members
+        provide netwrok group name
         '''
         group = self.findObject('/object/networkgroups',name)
         if 'name' in group[0]:
@@ -290,6 +299,7 @@ class Fmc(object):
     def showHosts(self,name=''):
         '''
         show host by name
+        show all hosts if name is not provided
         '''
         if name:
            return self.findHost(name)
@@ -298,6 +308,7 @@ class Fmc(object):
     def showNetworks(self,name=''):
         '''
         show network object by name
+        shows all networks if name is not provided
         '''
         if name:
            return self.findNetwork(name)
@@ -330,7 +341,8 @@ class Fmc(object):
 
     def deploymentRequests(self):
         '''
-        creates a deployment request i.e. only a message on FMC
+        creates a deployment request
+        this is just a message on FMC, not an actual deploy will be performed
         '''
         path='/deployment/deploymentrequests'
         post_data = {
