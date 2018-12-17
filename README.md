@@ -57,3 +57,9 @@ Show all network objects
 
 
 Enjoy!
+
+
+
+# UPDATE December 17th 2018
+
+Added **asa2fortigate_object.py** to convert object from ASA to FORTIGATE.
